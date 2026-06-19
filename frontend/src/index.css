@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+:root {
+  --text: #4b5563;
+  --text-h: #0f172a;
+
+  --bg: #ffffff;
+  --border: #e5e7eb;
+
+  --primary: #0f4c81;
+  --secondary: #00a99d;
+
+  --accent: var(--primary);
+  --accent-bg: rgba(15, 76, 129, 0.08);
+  --accent-border: rgba(15, 76, 129, 0.25);
+
+  --card-bg: #f8fafc;
+  --social-bg: #f1f5f9;
+
+  --shadow:
+    rgba(0, 0, 0, 0.08) 0 10px 15px -3px,
+    rgba(0, 0, 0, 0.04) 0 4px 6px -2px;
+}
+
+/* Department Slider Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .animate-scroll {
+    animation-duration: 20s;
+  }
+}
