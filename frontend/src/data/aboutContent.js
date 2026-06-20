@@ -1,7 +1,7 @@
 export const aboutContent = {
 about: {
 title: "About Moon Medical Tourism",
-image: "/about/company.jpg",
+image: null,
 content: `
 Moon Medical Tourism is a trusted medical tourism facilitator dedicated to connecting patients with world-class healthcare services in Thailand. We work closely with leading hospitals, specialist doctors, and healthcare institutions to ensure patients receive the highest standard of medical care in a safe and comfortable environment.
 
