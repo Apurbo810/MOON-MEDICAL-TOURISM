@@ -19,8 +19,8 @@ const navLinks = [
     isDepartmentMenu: true,
   },
   { name: "Doctors", href: "/doctors" },
-  { name: "News", href: "#" },
-  { name: "Contact", href: "#contact" },
+  { name: "News", href: "/news" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const desktopLinkClass = ({ isActive }) =>

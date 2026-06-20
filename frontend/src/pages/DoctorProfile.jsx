@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import { doctors } from "../data/doctors";
+import { useState } from "react";
 
+import AppointmentModal from "../components/doctor/AppointmentModal";
 import defaultMale from "../assets/doctors/default-male.svg";
 import defaultFemale from "../assets/doctors/default-female.svg";
 
 export default function DoctorProfile() {
   const { id } = useParams();
-
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const doctor = doctors.find(
     (d) => d.id === Number(id)
   );
@@ -100,9 +102,12 @@ export default function DoctorProfile() {
             </div>
 
             <div className="flex flex-wrap gap-4 mt-10">
-              <button className="bg-[#243B8F] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1c3a72] transition">
-                Book Appointment
-              </button>
+            <button
+              onClick={() => setSelectedDoctor(doctor)}
+              className="bg-[#243B8F] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1c3a72] transition"
+            >
+              Book Appointment
+            </button>
 
               <a
                 href="https://wa.me/8801323222266"
@@ -113,7 +118,12 @@ export default function DoctorProfile() {
                 WhatsApp
               </a>
             </div>
-
+            {selectedDoctor && (
+              <AppointmentModal
+                doctor={selectedDoctor}
+                onClose={() => setSelectedDoctor(null)}
+              />
+            )}
           </div>
         </div>
       </div>
