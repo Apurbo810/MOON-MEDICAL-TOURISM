@@ -16,41 +16,62 @@ The React Compiler is not enabled on this template because of its impact on dev 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
 ```
-hospital-website
+frontend
+├─ .agents
 ├─ eslint.config.js
 ├─ index.html
 ├─ package-lock.json
 ├─ package.json
 ├─ public
+│  ├─ about
+│  │  ├─ advisor.webp
+│  │  ├─ Managing Partners1.webp
+│  │  └─ Managing Partners_2.webp
 │  ├─ hero
 │  │  ├─ 1.webp
 │  │  ├─ 2.webp
-│  │  └─ 3.jpg
+│  │  ├─ 3.jpg
+│  │  └─ 3.webp
 │  └─ logo.svg
 ├─ README.md
 ├─ src
 │  ├─ App.css
 │  ├─ App.jsx
 │  ├─ assets
-│  │  └─ departments
-│  │     ├─ brain.svg
-│  │     ├─ chemotherapy.svg
-│  │     ├─ healthy.svg
-│  │     ├─ ivf.svg
-│  │     └─ urology.svg
+│  │  ├─ departments
+│  │  │  ├─ brain.svg
+│  │  │  ├─ chemotherapy.svg
+│  │  │  ├─ healthy.svg
+│  │  │  ├─ ivf.svg
+│  │  │  └─ urology.svg
+│  │  └─ doctors
+│  │     ├─ default-female.svg
+│  │     └─ default-male.svg
 │  ├─ components
+│  │  ├─ department
+│  │  │  ├─ DepartmentCard.jsx
+│  │  │  ├─ DepartmentHero.jsx
+│  │  │  ├─ DoctorCard.jsx
+│  │  │  └─ EmptyDepartment.jsx
 │  │  ├─ Footer.jsx
 │  │  ├─ home
+│  │  │  ├─ About.jsx
 │  │  │  ├─ ContactCTA.jsx
 │  │  │  ├─ Departments.jsx
 │  │  │  └─ Hero.jsx
 │  │  └─ Navbar.jsx
 │  ├─ data
-│  │  └─ departments.js
+│  │  ├─ aboutContent.js
+│  │  ├─ departments.js
+│  │  └─ doctors.js
 │  ├─ index.css
 │  ├─ main.jsx
 │  └─ pages
+│     ├─ About.jsx
+│     ├─ DepartmentDetails.jsx
+│     ├─ Departments.jsx
 │     └─ Home.jsx
+├─ vercel.json
 └─ vite.config.js
 
 ```

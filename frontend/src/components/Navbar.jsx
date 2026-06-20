@@ -18,10 +18,8 @@ const navLinks = [
     name: "Departments",
     isDepartmentMenu: true,
   },
-  { name: "Doctors", href: "#" },
-  { name: "Patient Guide", href: "#" },
-  { name: "Air Ambulance", href: "#" },
-  { name: "Gallery", href: "#" },
+  { name: "Doctors", href: "/doctors" },
+  { name: "News", href: "#" },
   { name: "Contact", href: "#contact" },
 ];
 
