@@ -44,7 +44,7 @@ export default function Hero() {
                   sm:h-[320px]
                   md:h-[450px]
                   lg:h-[550px]
-                  object-cover
+                  object-contain
                 "
               />
             </div>
