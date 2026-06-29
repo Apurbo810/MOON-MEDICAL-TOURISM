@@ -1,9 +1,6 @@
-import axios from "axios";
+import axiosInstance from "../services/axios";
 
 export const getDepartments = async () => {
-  const response = await axios.get(
-    "http://localhost:5000/departments",
-  );
-
-  return response.data;
+  const { data } = await axiosInstance.get("/departments");
+  return data;
 };
