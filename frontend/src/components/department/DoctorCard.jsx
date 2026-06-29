@@ -5,9 +5,11 @@ import AppointmentModal from "../../components/doctor/AppointmentModal";
 
 import defaultMale from "../../assets/doctors/default-male.svg";
 import defaultFemale from "../../assets/doctors/default-female.svg";
+import { getDoctorPath } from "../../utils/doctorLinks";
 
-export default function DoctorCard({ doctor }) {
+export default function DoctorCard({ doctor = {} }) {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const doctorPath = getDoctorPath(doctor);
 
   const doctorImage =
     doctor.image ||
@@ -25,7 +27,7 @@ export default function DoctorCard({ doctor }) {
             <div className="flex justify-center">
               <img
                 src={doctorImage}
-                alt={doctor.name}
+                alt={doctor.name || "Doctor"}
                 loading="lazy"
                 className="w-40 h-40 rounded-xl object-cover border"
               />
@@ -34,15 +36,16 @@ export default function DoctorCard({ doctor }) {
             {/* Doctor Info */}
             <div className="flex-1">
               <h3 className="text-2xl font-bold text-[#243B8F]">
-                {doctor.name}
+                {doctor.name || "Unnamed Doctor"}
               </h3>
 
               <p className="text-[#C62828] font-medium mt-1">
-                {doctor.designation}
+                {doctor.designation || "Designation TBA"}
               </p>
 
               <p className="text-gray-600 mt-2">
-                {doctor.qualifications}
+                {doctor.qualifications ||
+                  "Qualifications will be updated soon."}
               </p>
 
               <div className="mt-4 space-y-2">
@@ -50,21 +53,21 @@ export default function DoctorCard({ doctor }) {
                   <span className="font-semibold">
                     Department:
                   </span>{" "}
-                  {doctor.department}
+                  {doctor.department || "Department TBA"}
                 </p>
 
                 <p className="text-sm text-gray-700">
                   <span className="font-semibold">
                     Hospital:
                   </span>{" "}
-                  {doctor.hospital}
+                  {doctor.hospital || "Hospital TBA"}
                 </p>
 
                 <p className="text-sm text-gray-700">
                   <span className="font-semibold">
                     Experience:
                   </span>{" "}
-                  {doctor.experience}
+                  {doctor.experience || "Experience TBA"}
                 </p>
               </div>
 
@@ -77,12 +80,22 @@ export default function DoctorCard({ doctor }) {
                   Appointment
                 </button>
 
-                <Link
-                  to={`/doctors/${doctor.id}`}
-                  className="border border-[#243B8F] text-[#243B8F] px-5 py-2 rounded-lg hover:bg-[#243B8F] hover:text-white transition"
-                >
-                  Profile
-                </Link>
+                {doctorPath ? (
+                  <Link
+                    to={doctorPath}
+                    className="border border-[#243B8F] text-[#243B8F] px-5 py-2 rounded-lg hover:bg-[#243B8F] hover:text-white transition"
+                  >
+                    Profile
+                  </Link>
+                ) : (
+                  <span
+                    className="cursor-not-allowed rounded-lg border border-gray-200 px-5 py-2 text-gray-400"
+                    aria-disabled="true"
+                    title="This doctor is missing an ID"
+                  >
+                    Profile
+                  </span>
+                )}
               </div>
             </div>
 

@@ -1,14 +1,83 @@
 import { useParams, Link } from "react-router-dom";
-import { departments } from "../data/departments";
-import { doctors } from "../data/doctors";
+import { useEffect, useState } from "react";
+import axios from "../services/axios";
+
 import DoctorCard from "../components/department/DoctorCard";
 
 export default function DepartmentDetails() {
   const { slug } = useParams();
+  const isValidSlug =
+    typeof slug === "string" &&
+    slug.trim() !== "" &&
+    slug.trim().toLowerCase() !== "undefined" &&
+    slug.trim().toLowerCase() !== "null";
+  const normalizedSlug = isValidSlug
+    ? slug.trim()
+    : "";
 
-  const department = departments.find(
-    (d) => d.slug === slug
-  );
+  const [department, setDepartment] =
+    useState(null);
+
+  const [departmentDoctors, setDepartmentDoctors] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!isValidSlug) {
+        setDepartment(null);
+        setDepartmentDoctors([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        // Fetch department
+        const departmentRes =
+          await axios.get(
+            `/departments/${encodeURIComponent(
+              normalizedSlug
+            )}`
+          );
+
+        setDepartment(departmentRes.data);
+
+        // Fetch doctors
+        const doctorsRes =
+          await axios.get(
+            `/doctors?department=${encodeURIComponent(
+              normalizedSlug
+            )}`
+          );
+
+        console.log("Doctors API:", doctorsRes.data);
+
+        setDepartmentDoctors(
+          Array.isArray(doctorsRes.data)
+            ? doctorsRes.data
+            : []
+        );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [isValidSlug, normalizedSlug]);
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto py-20 text-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   if (!department) {
     return (
@@ -19,10 +88,6 @@ export default function DepartmentDetails() {
       </div>
     );
   }
-
-  const departmentDoctors = doctors.filter(
-    (doctor) => doctor.departmentSlug === slug
-  );
 
   return (
     <section className="max-w-[1400px] mx-auto px-6 py-10">
@@ -45,9 +110,12 @@ export default function DepartmentDetails() {
       {/* Banner */}
       <div className="mb-10">
         <img
-          src={department.banner}
+          src={
+            department.banner ||
+            "/public/banners/department_banner.webp"
+          }
           alt={department.title}
-          className="w-full h-[350px] object-cover rounded-2xl"
+          className="w-full h-[250px] object-cover rounded-2xl"
         />
       </div>
 
@@ -58,23 +126,18 @@ export default function DepartmentDetails() {
             {department.title}
           </h1>
 
+          {department.icon && (
+            <img
+              src={department.icon}
+              alt={department.title}
+              className="w-20 h-20 object-contain mb-6"
+            />
+          )}
+
           <p className="text-gray-700 leading-8">
-            {department.description}
+            {department.content ||
+              department.shortDescription}
           </p>
-
-          <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">
-              Services
-            </h2>
-
-            <ul className="space-y-3">
-              <li>✓ Specialist Consultation</li>
-              <li>✓ Advanced Diagnosis</li>
-              <li>✓ Treatment Planning</li>
-              <li>✓ Follow-up Care</li>
-              <li>✓ International Patient Support</li>
-            </ul>
-          </div>
         </div>
 
         {/* Right */}
@@ -84,13 +147,16 @@ export default function DepartmentDetails() {
           </h2>
 
           <div className="space-y-6">
-            {departmentDoctors.length > 0 ? (
-              departmentDoctors.map((doctor) => (
-                <DoctorCard
-                  key={doctor.id}
-                  doctor={doctor}
-                />
-              ))
+            {departmentDoctors.length >
+            0 ? (
+              departmentDoctors.map(
+                (doctor) => (
+                  <DoctorCard
+                    key={doctor._id}
+                    doctor={doctor}
+                  />
+                )
+              )
             ) : (
               <div className="bg-white rounded-2xl shadow-md p-10 text-center">
                 <img
@@ -100,12 +166,15 @@ export default function DepartmentDetails() {
                 />
 
                 <h3 className="text-2xl font-semibold">
-                  No Specialist Currently Available
+                  No Specialist Currently
+                  Available
                 </h3>
 
                 <p className="text-gray-600 mt-3">
-                  Please contact Moon Medical Tourism
-                  for assistance and specialist referral.
+                  Please contact Moon
+                  Medical Tourism for
+                  assistance and specialist
+                  referral.
                 </p>
               </div>
             )}

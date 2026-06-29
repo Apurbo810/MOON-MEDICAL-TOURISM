@@ -1,7 +1,21 @@
-import { Menu, X, Phone, Mail, MapPin, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import {
+  Menu,
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  ChevronDown,
+} from "lucide-react";
+
+import { useState, useEffect } from "react";
+
 import { Link, NavLink } from "react-router-dom";
-import { departments } from "../data/departments";
+
+import axios from "../services/axios";
+import {
+  getDepartmentPath,
+  logDepartmentsForDebugging,
+} from "../utils/departmentLinks";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -34,7 +48,53 @@ const desktopAnchorClass =
 const mobileLinkClass =
   "block border-b border-white/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-white/10";
 
+function DepartmentMenuItem({
+  department,
+  className,
+  onClick,
+}) {
+  const departmentPath =
+    getDepartmentPath(department);
+
+  if (!departmentPath) {
+    return (
+      <span
+        className={`${className} cursor-not-allowed text-gray-400`}
+        aria-disabled="true"
+        title="This department is missing a slug"
+      >
+        {department.title || "Untitled Department"}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      to={departmentPath}
+      onClick={onClick}
+      className={className}
+    >
+      {department.title}
+    </Link>
+  );
+}
+
 export default function Navbar() {
+  const [departments, setDepartments] = useState([]);
+
+useEffect(() => {
+  const fetchDepartments = async () => {
+    try {
+      const res = await axios.get("/departments");
+      logDepartmentsForDebugging("Navbar", res.data);
+      setDepartments(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchDepartments();
+}, []);
   const [isOpen, setIsOpen] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState(null);
 
@@ -130,18 +190,17 @@ export default function Navbar() {
                       <div className="absolute left-0 top-full z-50 w-[640px] rounded-b-lg bg-white text-gray-700 shadow-xl opacity-0 pointer-events-none transition-opacity duration-75 group-hover:opacity-100 group-hover:pointer-events-auto">
                         <div className="grid grid-cols-2">
                           {departments.map((department) => (
-                            <Link
-                              key={department.id}
-                              to={`/departments/${department.slug}`}
+                            <DepartmentMenuItem
+                              key={department._id}
+                              department={department}
                               className="border-b border-r border-gray-100 px-6 py-4 transition hover:bg-blue-50 hover:text-[#243B8F]"
-                            >
-                              {department.title}
-                            </Link>
+                            />
                           ))}
                         </div>
 
                         <Link
                           to="/departments"
+                          onClick={() => setIsOpen(false)}
                           className="block bg-[#243B8F] py-3 text-center font-medium text-white transition hover:bg-[#1B2E73]"
                         >
                           View All Departments
@@ -209,14 +268,12 @@ export default function Navbar() {
                             {link.isDepartmentMenu ? (
                               <>
                                 {departments.map((department) => (
-                                  <Link
-                                    key={department.id}
-                                    to={`/departments/${department.slug}`}
+                                  <DepartmentMenuItem
+                                    key={department._id}
+                                    department={department}
                                     onClick={closeMobileMenu}
                                     className="block border-b border-white/10 px-8 py-3 text-sm text-gray-100 transition hover:bg-white/10"
-                                  >
-                                    {department.title}
-                                  </Link>
+                                  />
                                 ))}
 
                                 <Link
