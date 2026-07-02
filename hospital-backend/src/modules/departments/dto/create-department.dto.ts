@@ -28,14 +28,6 @@ export class CreateDepartmentDto {
 
   @IsOptional()
   @IsString()
-  banner?: string;
-
-  @IsOptional()
-  @IsString()
-  bannerPublicId?: string;
-
-  @IsOptional()
-  @IsString()
   shortDescription?: string;
 
   @IsOptional()

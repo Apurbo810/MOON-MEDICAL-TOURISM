@@ -30,60 +30,70 @@ import ArchivePhotos from "./pages/Gallery/ArchivePhotos";
 
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import EditDoctor from "./pages/Doctors/EditDoctor";
+import EditDepartment from "./pages/Departments/EditDepartment";
+import EditNews from "./pages/News/EditNews";
+
 export default function App() {
   return (
-<Router>
-  <ScrollToTop />
+    <Router>
+      <ScrollToTop />
 
-  <Routes>
-    {/* Public Routes */}
-    <Route path="/signin" element={<SignIn />} />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/signin" element={<SignIn />} />
 
-    {/* Protected Routes */}
-    <Route
-      element={
-        <ProtectedRoute>
-          <AppLayout />
-        </ProtectedRoute>
-      }
-    >
-      <Route path="/" element={<Home />} />
-      <Route path="/profile" element={<UserProfiles />} />
+        {/* Protected Routes */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<UserProfiles />} />
 
-      <Route path="/doctors" element={<AllDoctors />} />
-      <Route
-        path="/doctors/create"
-        element={<AddDoctor />}
-      />
-      <Route
-        path="/doctors/edit/:id"
-        element={<EditDoctor />}
-      />
-      <Route
-        path="/departments"
-        element={<AllDepartments />}
-      />
+          <Route path="/doctors" element={<AllDoctors />} />
+          <Route
+            path="/doctors/create"
+            element={<AddDoctor />}
+          />
+          <Route
+            path="/doctors/edit/:id"
+            element={<EditDoctor />}
+          />
+          <Route
+            path="/departments"
+            element={<AllDepartments />}
+          />
+          <Route
+            path="/departments/create"
+            element={<AddDepartment />}
+          />
+          <Route
+            path="/departments/edit/:id"
+            element={<EditDepartment />}
+          />
 
-      <Route
-        path="/departments/create"
-        element={<AddDepartment />}
-      />
+          <Route path="/news" element={<AllNews />} />
+          <Route
+            path="/news/create"
+            element={<AddNews />}
+          />
+          <Route
+            path="/news/edit/:id"
+            element={<EditNews />}
+          />
 
-      <Route path="/news" element={<AllNews />} />
-      <Route
-        path="/news/create"
-        element={<AddNews />}
-      />
+          <Route
+            path="/gallery"
+            element={<ArchivePhotos />}
+          />
+        </Route>
 
-      <Route
-        path="/gallery"
-        element={<ArchivePhotos />}
-      />
-    </Route>
-
-    {/* 404 */}
-    <Route path="*" element={<NotFound />} />
-  </Routes>
-</Router>
+        {/* 404 */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   );
 }

@@ -27,12 +27,6 @@ export class Department {
   iconPublicId?: string;
 
   @Prop()
-  banner?: string;
-
-  @Prop()
-  bannerPublicId?: string;
-
-  @Prop()
   shortDescription?: string;
 
   @Prop()

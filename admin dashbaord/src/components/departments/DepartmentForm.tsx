@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import FileInput from "../form/input/FileInput";
@@ -15,46 +15,124 @@ import {
 import axiosInstance from "../../services/axios";
 
 export default function DepartmentForm() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditMode = Boolean(id);
+
   const [selectedImage, setSelectedImage] =
     useState<File | null>(null);
-
   const [imagePreview, setImagePreview] =
     useState<string | null>(null);
-
   const [loading, setLoading] = useState(false);
-    // Put useEffect here
-    useEffect(() => {
-        return () => {
-        if (imagePreview) {
-            URL.revokeObjectURL(imagePreview);
-        }
-        };
-    }, [imagePreview]);
-    const {
+  const [oldImagePublicId, setOldImagePublicId] =
+    useState<string | null>(null);
+
+  const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-    } = useForm<DepartmentFormData>({
+  } = useForm<DepartmentFormData>({
     resolver: zodResolver(departmentSchema),
-    });
+    defaultValues: {
+      title: "",
+      shortDescription: "",
+    },
+  });
 
-    const handleImageChange = (
+  useEffect(() => {
+    if (!isEditMode) return;
+
+    const fetchDepartment = async () => {
+      try {
+        const res = await axiosInstance.get(
+          `/departments/${id}`
+        );
+        const department = res.data;
+
+        applyDepartmentData(department);
+      } catch (error: any) {
+        if (error?.response?.status === 404) {
+          try {
+            const listRes = await axiosInstance.get(
+              "/departments"
+            );
+            const departments = Array.isArray(
+              listRes.data
+            )
+              ? listRes.data
+              : listRes.data?.data || [];
+            const department = departments.find(
+              (item: any) =>
+                item._id === id ||
+                item.id === id ||
+                item.slug === id
+            );
+
+            if (!department) {
+              throw new Error("Department not found");
+            }
+
+            applyDepartmentData(department);
+          } catch (fallbackError) {
+            console.error(fallbackError);
+            toast.error("Failed to load department data");
+          }
+          return;
+        }
+
+        console.error(error);
+        toast.error("Failed to load department data");
+      }
+    };
+
+    const applyDepartmentData = (department: any) => {
+      reset({
+        title: department.title || "",
+        shortDescription:
+          department.shortDescription || "",
+      });
+
+      if (department.icon) {
+        setImagePreview(department.icon);
+      }
+
+      if (department.iconPublicId) {
+        setOldImagePublicId(department.iconPublicId);
+      }
+    };
+
+    fetchDepartment();
+  }, [id, isEditMode, reset]);
+
+  useEffect(() => {
+    return () => {
+      if (
+        imagePreview &&
+        imagePreview.startsWith("blob:")
+      ) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
+
+  const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>
-    ) => {
+  ) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
-    if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
+    if (
+      imagePreview &&
+      imagePreview.startsWith("blob:")
+    ) {
+      URL.revokeObjectURL(imagePreview);
     }
 
     setSelectedImage(file);
-    setImagePreview(
-        URL.createObjectURL(file)
-    );
-    };
+    setImagePreview(URL.createObjectURL(file));
+  };
 
   const onSubmit = async (
     data: DepartmentFormData
@@ -63,16 +141,11 @@ export default function DepartmentForm() {
       setLoading(true);
 
       let icon = "";
-      let iconPublicId = "";
+      let iconPublicId = oldImagePublicId || "";
 
-      // upload image
       if (selectedImage) {
         const formData = new FormData();
-
-        formData.append(
-          "image",
-          selectedImage
-        );
+        formData.append("image", selectedImage);
 
         const uploadRes =
           await axiosInstance.post(
@@ -81,44 +154,52 @@ export default function DepartmentForm() {
           );
 
         icon = uploadRes.data.imageUrl;
-        iconPublicId =
-          uploadRes.data.publicId;
+        iconPublicId = uploadRes.data.publicId;
+      } else if (isEditMode && imagePreview) {
+        icon = imagePreview;
       }
 
-      // create slug
       const slug = data.title
         .toLowerCase()
         .replace(/\s+/g, "-");
 
-      await axiosInstance.post(
-        "/departments",
-        {
-          title: data.title,
-          slug,
-          shortDescription:
-            data.shortDescription,
-          icon,
-          iconPublicId,
-        }
-      );
- 
-      toast.success(
-        "Department created successfully"
-      );
-           // Clear form
-        reset();
+      const payload = {
+        title: data.title,
+        slug,
+        shortDescription: data.shortDescription,
+        icon,
+        iconPublicId,
+      };
 
-        // Clear image preview
-        setSelectedImage(null);
-        setImagePreview(null);
-    } catch (error: any) {
-        console.log(error);
-
-        toast.error(
-            error?.response?.data?.message ||
-            "Failed to create department"
+      if (isEditMode) {
+        await axiosInstance.patch(
+          `/departments/${id}`,
+          payload
         );
-        } finally {
+        toast.success("Department updated successfully");
+      } else {
+        await axiosInstance.post(
+          "/departments",
+          payload
+        );
+        toast.success("Department created successfully");
+      }
+
+      reset();
+      setSelectedImage(null);
+      setImagePreview(null);
+      setOldImagePublicId(null);
+      navigate("/departments");
+    } catch (error: any) {
+      console.error(error);
+
+      toast.error(
+        error?.response?.data?.message ||
+          (isEditMode
+            ? "Failed to update department"
+            : "Failed to create department")
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -134,12 +215,8 @@ export default function DepartmentForm() {
         </h3>
 
         <div className="space-y-6">
-
-          {/* Name */}
           <div>
-            <Label>
-              Department Name *
-            </Label>
+            <Label>Department Name *</Label>
 
             <Input
               placeholder="Cardiology"
@@ -153,45 +230,31 @@ export default function DepartmentForm() {
             )}
           </div>
 
-          {/* Description */}
           <div>
-            <Label>
-              Short Description *
-            </Label>
+            <Label>Short Description *</Label>
 
             <textarea
               rows={4}
-              {...register(
-                "shortDescription"
-              )}
+              {...register("shortDescription")}
               className="w-full rounded-lg border border-gray-300 bg-white p-4 text-sm text-gray-800 outline-none transition focus:border-brand-300 focus:ring-3 focus:ring-brand-500/20 dark:border-gray-700 dark:bg-gray-900/80 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-brand-800"
             />
 
             {errors.shortDescription && (
               <p className="mt-1 text-sm text-red-500">
-                {
-                  errors.shortDescription
-                    .message
-                }
+                {errors.shortDescription.message}
               </p>
             )}
           </div>
 
-          {/* Logo */}
           <div>
-            <Label>
-              Department Logo
-            </Label>
+            <Label>Department Logo</Label>
 
-            <FileInput
-              onChange={
-                handleImageChange
-              }
-            />
+            <FileInput onChange={handleImageChange} />
 
             {imagePreview && (
               <img
                 src={imagePreview}
+                alt="Department preview"
                 className="mt-4 h-24 w-24 rounded-xl object-cover"
               />
             )}
@@ -204,8 +267,12 @@ export default function DepartmentForm() {
         className="rounded-lg bg-brand-500 px-6 py-3 text-white"
       >
         {loading
-          ? "Creating..."
-          : "Create Department"}
+          ? isEditMode
+            ? "Updating..."
+            : "Creating..."
+          : isEditMode
+            ? "Update Department"
+            : "Create Department"}
       </button>
     </form>
   );

@@ -136,6 +136,48 @@ export default function DoctorTable({
       );
     }
   };
+
+  const handleStatusToggle = async (
+    doctor: Doctor
+  ) => {
+    const action = doctor.isActive
+      ? "deactivate"
+      : "activate";
+    const confirmed = window.confirm(
+      `Are you sure you want to ${action} this doctor?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await axiosInstance.patch(
+        `/doctors/${doctor._id}`,
+        {
+          isActive: !doctor.isActive,
+        }
+      );
+
+      setDoctors((prev) =>
+        prev.map((item) =>
+          item._id === doctor._id
+            ? {
+                ...item,
+                isActive: !item.isActive,
+              }
+            : item
+        )
+      );
+
+      toast.success(
+        `Doctor ${action}d successfully`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `Failed to ${action} doctor`
+      );
+    }
+  };
    const displayedDoctors = dashboardMode
     ? doctors.slice(0, 5)
     : doctors;
@@ -325,17 +367,24 @@ export default function DoctorTable({
                   </TableCell>
 
                   <TableCell className="px-5 py-4">
-                    <Badge
-                      color={
-                        doctor.isActive
-                          ? "success"
-                          : "error"
+                    <button
+                      onClick={() =>
+                        handleStatusToggle(doctor)
                       }
+                      className="rounded-full border border-gray-200 px-3 py-1 text-sm font-medium transition hover:opacity-80 dark:border-gray-700"
                     >
-                      {doctor.isActive
-                        ? "Active"
-                        : "Inactive"}
-                    </Badge>
+                      <Badge
+                        color={
+                          doctor.isActive
+                            ? "success"
+                            : "error"
+                        }
+                      >
+                        {doctor.isActive
+                          ? "Active"
+                          : "Inactive"}
+                      </Badge>
+                    </button>
                   </TableCell>
 
                   <TableCell className="px-5 py-4">

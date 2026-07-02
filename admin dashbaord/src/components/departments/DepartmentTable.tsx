@@ -82,6 +82,48 @@ export default function DepartmentTable() {
     }
   };
 
+  const handleStatusToggle = async (
+    department: Department
+  ) => {
+    const action = department.isActive
+      ? "deactivate"
+      : "activate";
+    const confirmed = window.confirm(
+      `Are you sure you want to ${action} this department?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await axiosInstance.patch(
+        `/departments/${department._id}`,
+        {
+          isActive: !department.isActive,
+        }
+      );
+
+      setDepartments((prev) =>
+        prev.map((item) =>
+          item._id === department._id
+            ? {
+                ...item,
+                isActive: !item.isActive,
+              }
+            : item
+        )
+      );
+
+      toast.success(
+        `Department ${action}d successfully`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `Failed to ${action} department`
+      );
+    }
+  };
+
   const filteredDepartments =
     departments.filter((department) =>
       department.title
@@ -200,17 +242,26 @@ export default function DepartmentTable() {
                     </TableCell>
 
                     <TableCell className="px-5 py-4">
-                      <Badge
-                        color={
-                          department.isActive
-                            ? "success"
-                            : "error"
+                      <button
+                        onClick={() =>
+                          handleStatusToggle(
+                            department
+                          )
                         }
+                        className="rounded-full border border-gray-200 px-3 py-1 text-sm font-medium transition hover:opacity-80 dark:border-gray-700"
                       >
-                        {department.isActive
-                          ? "Active"
-                          : "Inactive"}
-                      </Badge>
+                        <Badge
+                          color={
+                            department.isActive
+                              ? "success"
+                              : "error"
+                          }
+                        >
+                          {department.isActive
+                            ? "Active"
+                            : "Inactive"}
+                        </Badge>
+                      </button>
                     </TableCell>
 
                     <TableCell className="px-5 py-4">

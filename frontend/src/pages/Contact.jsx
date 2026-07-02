@@ -106,10 +106,10 @@ export default function Contact() {
                   </h3>
 
                   <a
-                    href="mailto:uttarabangkokhospital@gmail.com"
+                    href="mailto:moonmedicaltourism@gmail.com"
                     className="text-gray-600 hover:text-[#243B8F] mt-2 block break-all"
                   >
-                    uttarabangkokhospital@gmail.com
+                    moonmedicaltourism@gmail.com
                   </a>
                 </div>
               </div>

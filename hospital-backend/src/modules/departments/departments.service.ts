@@ -120,18 +120,6 @@ export class DepartmentsService {
       );
     }
 
-    // Delete old banner
-    if (
-      updateDepartmentDto.banner &&
-      department.bannerPublicId &&
-      updateDepartmentDto.banner !==
-        department.banner
-    ) {
-      await this.cloudinaryService.deleteFile(
-        department.bannerPublicId,
-      );
-    }
-
     Object.assign(
       department,
       updateDepartmentDto,
@@ -156,13 +144,6 @@ export class DepartmentsService {
     if (department.iconPublicId) {
       await this.cloudinaryService.deleteFile(
         department.iconPublicId,
-      );
-    }
-
-    // Delete banner
-    if (department.bannerPublicId) {
-      await this.cloudinaryService.deleteFile(
-        department.bannerPublicId,
       );
     }
 

@@ -95,6 +95,48 @@ export default function NewsTable() {
     }
   };
 
+  const handleStatusToggle = async (
+    item: News
+  ) => {
+    const action = item.isPublished
+      ? "unpublish"
+      : "publish";
+    const confirmed = window.confirm(
+      `Are you sure you want to ${action} this news?`
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await axiosInstance.patch(
+        `/news/${item._id}`,
+        {
+          isPublished: !item.isPublished,
+        }
+      );
+
+      setNews((prev) =>
+        prev.map((entry) =>
+          entry._id === item._id
+            ? {
+                ...entry,
+                isPublished: !entry.isPublished,
+              }
+            : entry
+        )
+      );
+
+      toast.success(
+        `News ${action}ed successfully`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `Failed to ${action} news`
+      );
+    }
+  };
+
   if (loading) {
     return (
       <div className="rounded-xl border border-gray-200 bg-white p-6 text-gray-700 dark:border-gray-800 dark:bg-gray-900/80 dark:text-gray-200">
@@ -225,17 +267,24 @@ export default function NewsTable() {
                   </TableCell>
 
                   <TableCell className="px-5 py-4">
-                    <Badge
-                      color={
-                        item.isPublished
-                          ? "success"
-                          : "error"
+                    <button
+                      onClick={() =>
+                        handleStatusToggle(item)
                       }
+                      className="rounded-full border border-gray-200 px-3 py-1 text-sm font-medium transition hover:opacity-80 dark:border-gray-700"
                     >
-                      {item.isPublished
-                        ? "Published"
-                        : "Draft"}
-                    </Badge>
+                      <Badge
+                        color={
+                          item.isPublished
+                            ? "success"
+                            : "error"
+                        }
+                      >
+                        {item.isPublished
+                          ? "Published"
+                          : "Draft"}
+                      </Badge>
+                    </button>
                   </TableCell>
 
                   <TableCell className="px-5 py-4">
