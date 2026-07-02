@@ -112,7 +112,7 @@ export default function DepartmentDetails() {
         <img
           src={
             department.banner ||
-            "/public/banners/department_banner.webp"
+            "../assets/banners/department_banner.webp"
           }
           alt={department.title}
           className="w-full h-[250px] object-cover rounded-2xl"
