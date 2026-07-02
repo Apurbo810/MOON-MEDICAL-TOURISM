@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "../services/axios";
 
 import DoctorCard from "../components/department/DoctorCard";
-
+import departmentBanner from "../assets/banners/department_banner.webp";
 export default function DepartmentDetails() {
   const { slug } = useParams();
   const isValidSlug =
@@ -109,14 +109,11 @@ export default function DepartmentDetails() {
 
       {/* Banner */}
       <div className="mb-10">
-        <img
-          src={
-            department.banner ||
-            "../assets/banners/department_banner.webp"
-          }
-          alt={department.title}
-          className="w-full h-[250px] object-cover rounded-2xl"
-        />
+          <img
+            src={departmentBanner}
+            alt={department.title}
+            className="w-full h-[250px] object-cover rounded-2xl"
+          />
       </div>
 
       <div className="grid lg:grid-cols-[1fr_450px] gap-10">
