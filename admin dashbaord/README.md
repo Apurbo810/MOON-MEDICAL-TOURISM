@@ -205,7 +205,7 @@ and maintaining this template.
 
 
 ```
-doc
+admin dashbaord
 ├─ banner.png
 ├─ eslint.config.js
 ├─ index.html
@@ -346,6 +346,7 @@ doc
 │  ├─ App.tsx
 │  ├─ components
 │  │  ├─ auth
+│  │  │  ├─ ProtectedRoute.tsx
 │  │  │  ├─ SignInForm.tsx
 │  │  │  └─ SignUpForm.tsx
 │  │  ├─ charts
@@ -362,18 +363,20 @@ doc
 │  │  │  ├─ ScrollToTop.tsx
 │  │  │  ├─ ThemeToggleButton.tsx
 │  │  │  └─ ThemeTogglerTwo.tsx
+│  │  ├─ dashboard
+│  │  │  ├─ CountryMap.tsx
+│  │  │  ├─ DashboardDepartmentTable.tsx
+│  │  │  ├─ DemographicCard.tsx
+│  │  │  ├─ HospitalMetrics.tsx
+│  │  │  ├─ MonthlySalesChart.tsx
+│  │  │  └─ TodayDoctorsTable.tsx
+│  │  ├─ departments
+│  │  │  ├─ DepartmentForm.tsx
+│  │  │  └─ DepartmentTable.tsx
 │  │  ├─ doctors
 │  │  │  ├─ DoctorForm.tsx
 │  │  │  ├─ DoctorSchedule.tsx
 │  │  │  └─ DoctorTable.tsx
-│  │  ├─ ecommerce
-│  │  │  ├─ CountryMap.tsx
-│  │  │  ├─ DemographicCard.tsx
-│  │  │  ├─ DoctorsDepartmentChart.tsx
-│  │  │  ├─ HospitalMetrics.tsx
-│  │  │  ├─ MonthlySalesChart.tsx
-│  │  │  ├─ MonthlyTarget.tsx
-│  │  │  └─ RecentOrders.tsx
 │  │  ├─ form
 │  │  │  ├─ date-picker.tsx
 │  │  │  ├─ form-elements
@@ -406,6 +409,9 @@ doc
 │  │  │  ├─ Header.tsx
 │  │  │  ├─ NotificationDropdown.tsx
 │  │  │  └─ UserDropdown.tsx
+│  │  ├─ news
+│  │  │  ├─ NewsForm.tsx
+│  │  │  └─ NewsTable.tsx
 │  │  ├─ tables
 │  │  │  └─ BasicTables
 │  │  │     └─ BasicTableOne.tsx
@@ -528,7 +534,8 @@ doc
 │  │  │  └─ AllDepartments.tsx
 │  │  ├─ Doctors
 │  │  │  ├─ AddDoctor.tsx
-│  │  │  └─ AllDoctors.tsx
+│  │  │  ├─ AllDoctors.tsx
+│  │  │  └─ EditDoctor.tsx
 │  │  ├─ Forms
 │  │  │  └─ FormElements.tsx
 │  │  ├─ Gallery
@@ -549,7 +556,13 @@ doc
 │  │  │  └─ Videos.tsx
 │  │  └─ UserProfiles.tsx
 │  ├─ schemas
-│  │  └─ doctor.schema.ts
+│  │  ├─ department.schema.ts
+│  │  ├─ doctor.schema.ts
+│  │  ├─ login.schema.ts
+│  │  └─ news.schema.ts
+│  ├─ services
+│  │  ├─ axios.ts
+│  │  └─ departmentApi.ts
 │  ├─ svg.d.ts
 │  └─ vite-env.d.ts
 ├─ tsconfig.app.json
