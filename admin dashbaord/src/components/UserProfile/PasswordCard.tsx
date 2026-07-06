@@ -5,14 +5,6 @@ import Button from "../ui/button/Button";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import axiosInstance from "../../services/axios";
 
-type AdminProfile = {
-  name: string;
-  email: string;
-  role?: string | null;
-  photo?: string | null;
-  password?: string;
-};
-
 export default function PasswordCard() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
