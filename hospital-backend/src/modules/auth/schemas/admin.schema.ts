@@ -20,9 +20,18 @@ export class Admin {
   password!: string;
 
   @Prop({
-    default: 'admin',
+    default: "admin",
   })
   role!: string;
+
+  @Prop({
+    default: null,
+  })
+  photo?: string;
+
+  // These are created automatically by timestamps: true
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);

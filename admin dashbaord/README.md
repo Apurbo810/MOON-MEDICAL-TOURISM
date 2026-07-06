@@ -206,7 +206,6 @@ and maintaining this template.
 
 ```
 admin dashbaord
-├─ banner.png
 ├─ eslint.config.js
 ├─ index.html
 ├─ LICENSE.md
@@ -214,7 +213,6 @@ admin dashbaord
 ├─ package.json
 ├─ postcss.config.js
 ├─ public
-│  ├─ favicon.png
 │  └─ images
 │     ├─ brand
 │     │  ├─ brand-01.svg
@@ -233,17 +231,7 @@ admin dashbaord
 │     │  ├─ brand-14.svg
 │     │  └─ brand-15.svg
 │     ├─ cards
-│     │  ├─ card-01.jpg
-│     │  ├─ card-01.png
-│     │  ├─ card-02.jpg
-│     │  ├─ card-02.png
-│     │  ├─ card-03.jpg
-│     │  └─ card-03.png
 │     ├─ carousel
-│     │  ├─ carousel-01.png
-│     │  ├─ carousel-02.png
-│     │  ├─ carousel-03.png
-│     │  └─ carousel-04.png
 │     ├─ chat
 │     │  └─ chat.jpg
 │     ├─ country
@@ -266,14 +254,7 @@ admin dashbaord
 │     │  ├─ maintenance.svg
 │     │  ├─ success-dark.svg
 │     │  └─ success.svg
-│     ├─ favicon.ico
 │     ├─ grid-image
-│     │  ├─ image-01.png
-│     │  ├─ image-02.png
-│     │  ├─ image-03.png
-│     │  ├─ image-04.png
-│     │  ├─ image-05.png
-│     │  └─ image-06.png
 │     ├─ icons
 │     │  ├─ file-image-dark.svg
 │     │  ├─ file-image.svg
@@ -287,11 +268,6 @@ admin dashbaord
 │     │  ├─ logo-icon.svg
 │     │  └─ logo.svg
 │     ├─ product
-│     │  ├─ product-01.jpg
-│     │  ├─ product-02.jpg
-│     │  ├─ product-03.jpg
-│     │  ├─ product-04.jpg
-│     │  └─ product-05.jpg
 │     ├─ shape
 │     │  └─ grid-01.svg
 │     ├─ task
@@ -300,50 +276,17 @@ admin dashbaord
 │     │  ├─ task.jpg
 │     │  └─ task.png
 │     ├─ user
-│     │  ├─ owner.jpg
-│     │  ├─ user-01.jpg
-│     │  ├─ user-02.jpg
-│     │  ├─ user-03.jpg
-│     │  ├─ user-04.jpg
-│     │  ├─ user-05.jpg
-│     │  ├─ user-06.jpg
-│     │  ├─ user-07.jpg
-│     │  ├─ user-08.jpg
-│     │  ├─ user-09.jpg
-│     │  ├─ user-10.jpg
-│     │  ├─ user-11.jpg
-│     │  ├─ user-12.jpg
-│     │  ├─ user-13.jpg
-│     │  ├─ user-14.jpg
-│     │  ├─ user-15.jpg
-│     │  ├─ user-16.jpg
-│     │  ├─ user-17.jpg
-│     │  ├─ user-18.jpg
-│     │  ├─ user-19.jpg
-│     │  ├─ user-20.jpg
-│     │  ├─ user-21.jpg
-│     │  ├─ user-22.jpg
-│     │  ├─ user-23.jpg
-│     │  ├─ user-24.jpg
-│     │  ├─ user-25.jpg
-│     │  ├─ user-26.jpg
-│     │  ├─ user-27.jpg
-│     │  ├─ user-28.jpg
-│     │  ├─ user-29.jpg
-│     │  ├─ user-30.jpg
-│     │  ├─ user-31.jpg
-│     │  ├─ user-32.jpg
-│     │  ├─ user-33.jpg
-│     │  ├─ user-34.jpg
-│     │  ├─ user-35.jpg
-│     │  ├─ user-36.jpg
-│     │  └─ user-37.jpg
+│     │  └─ user.svg
 │     └─ video-thumb
 │        ├─ thumb-16.png
 │        └─ youtube-icon-84.svg
 ├─ README.md
 ├─ src
 │  ├─ App.tsx
+│  ├─ assets
+│  │  └─ doctors
+│  │     ├─ default-female.svg
+│  │     └─ default-male.svg
 │  ├─ components
 │  │  ├─ auth
 │  │  │  ├─ ProtectedRoute.tsx
@@ -412,6 +355,12 @@ admin dashbaord
 │  │  ├─ news
 │  │  │  ├─ NewsForm.tsx
 │  │  │  └─ NewsTable.tsx
+│  │  ├─ Profile
+│  │  │  ├─ AdminAccountCard
+│  │  │  └─ AdminProfileCard
+│  │  ├─ search
+│  │  │  ├─ GlobalSearch.tsx
+│  │  │  └─ searchData.ts
 │  │  ├─ tables
 │  │  │  └─ BasicTables
 │  │  │     └─ BasicTableOne.tsx
@@ -442,9 +391,9 @@ admin dashbaord
 │  │  │     ├─ SixteenIsToNine.tsx
 │  │  │     └─ TwentyOneIsToNine.tsx
 │  │  └─ UserProfile
-│  │     ├─ UserAddressCard.tsx
-│  │     ├─ UserInfoCard.tsx
-│  │     └─ UserMetaCard.tsx
+│  │     ├─ AdminAccountCard.tsx
+│  │     ├─ UserMetaCard.tsx
+│  │     └─ UserProfiles.tsx
 │  ├─ context
 │  │  ├─ SidebarContext.tsx
 │  │  └─ ThemeContext.tsx
@@ -531,7 +480,8 @@ admin dashbaord
 │  │  │  └─ Home.tsx
 │  │  ├─ Departments
 │  │  │  ├─ AddDepartment.tsx
-│  │  │  └─ AllDepartments.tsx
+│  │  │  ├─ AllDepartments.tsx
+│  │  │  └─ EditDepartment.tsx
 │  │  ├─ Doctors
 │  │  │  ├─ AddDoctor.tsx
 │  │  │  ├─ AllDoctors.tsx
@@ -542,7 +492,8 @@ admin dashbaord
 │  │  │  └─ ArchivePhotos.tsx
 │  │  ├─ News
 │  │  │  ├─ AddNews.tsx
-│  │  │  └─ AllNews.tsx
+│  │  │  ├─ AllNews.tsx
+│  │  │  └─ EditNews.tsx
 │  │  ├─ OtherPage
 │  │  │  └─ NotFound.tsx
 │  │  ├─ Tables
@@ -561,6 +512,7 @@ admin dashbaord
 │  │  ├─ login.schema.ts
 │  │  └─ news.schema.ts
 │  ├─ services
+│  │  ├─ authApi.ts
 │  │  ├─ axios.ts
 │  │  └─ departmentApi.ts
 │  ├─ svg.d.ts

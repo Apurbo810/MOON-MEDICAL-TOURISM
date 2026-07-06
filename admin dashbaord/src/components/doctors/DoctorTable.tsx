@@ -2,6 +2,8 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../services/axios";
 import { useNavigate } from "react-router-dom";
+import maleAvatar from "../../assets/doctors/default-male.svg";
+import femaleAvatar from "../../assets/doctors/default-female.svg";
 
 import {
   Table,
@@ -28,6 +30,7 @@ interface Doctor {
   experience: string;
   roomNo?: string;
   isActive: boolean;
+  gender?: string;
 }
 
 interface Props {
@@ -334,7 +337,9 @@ export default function DoctorTable({
                         <img
                           src={
                             doctor.image ||
-                            "/images/user/user-17.jpg"
+                            (doctor.gender === "female"
+                              ? femaleAvatar
+                              : maleAvatar)
                           }
                           alt={doctor.name}
                           className="h-full w-full object-cover"

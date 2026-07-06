@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { LoginDto } from './dto/login.dto';
 
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -28,5 +29,11 @@ export class AuthController {
     return {
       message: 'Protected route works',
     };
+  }
+
+  @Post('change-password')
+  @UseGuards(JwtAuthGuard)
+  changePassword(@Body() changePasswordDto: ChangePasswordDto) {
+    return this.authService.changePassword(changePasswordDto);
   }
 }

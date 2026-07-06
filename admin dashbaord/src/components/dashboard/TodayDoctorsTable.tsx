@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../services/axios";
 import { useNavigate } from "react-router-dom";
+import maleAvatar from "../../assets/doctors/default-male.svg";
+import femaleAvatar from "../../assets/doctors/default-female.svg";
 
 import {
   Table,
@@ -19,6 +21,7 @@ interface Doctor {
   designation: string;
   department: string;
   roomNo?: string;
+  gender?: string;
   schedule: {
     day: string;
     startTime: string;
@@ -138,7 +141,9 @@ export default function TodayDoctorsTable() {
                           <img
                             src={
                               doctor.image ||
-                              "/images/user/user-17.jpg"
+                              (doctor.gender === "female"
+                                ? femaleAvatar
+                                : maleAvatar)
                             }
                             alt={doctor.name}
                             className="h-full w-full object-cover"

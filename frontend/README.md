@@ -33,15 +33,14 @@ frontend
 │  │  ├─ 2.webp
 │  │  ├─ 3.jpg
 │  │  └─ 3.webp
-│  ├─ logo.svg
-│  └─ news
-│     ├─ air-ambulance.webp
-│     └─ bangkok-appointment.webp
+│  └─ logo.svg
 ├─ README.md
 ├─ src
 │  ├─ App.css
 │  ├─ App.jsx
 │  ├─ assets
+│  │  ├─ banners
+│  │  │  └─ department_banner.webp
 │  │  ├─ departments
 │  │  │  ├─ brain.svg
 │  │  │  ├─ chemotherapy.svg
@@ -70,9 +69,10 @@ frontend
 │  │  │  ├─ Departments.jsx
 │  │  │  └─ Hero.jsx
 │  │  ├─ Navbar.jsx
-│  │  └─ news
-│  │     ├─ FeaturedNews.jsx
-│  │     └─ NewsCard.jsx
+│  │  ├─ news
+│  │  │  ├─ FeaturedNews.jsx
+│  │  │  └─ NewsCard.jsx
+│  │  └─ ScrollToTop.jsx
 │  ├─ data
 │  │  ├─ aboutContent.js
 │  │  ├─ departments.js
@@ -80,16 +80,21 @@ frontend
 │  │  └─ news.js
 │  ├─ index.css
 │  ├─ main.jsx
-│  └─ pages
-│     ├─ About.jsx
-│     ├─ Contact.jsx
-│     ├─ DepartmentDetails.jsx
-│     ├─ Departments.jsx
-│     ├─ DoctorProfile.jsx
-│     ├─ Doctors.jsx
-│     ├─ Home.jsx
-│     ├─ News.jsx
-│     └─ NewsDetails.jsx
+│  ├─ pages
+│  │  ├─ About.jsx
+│  │  ├─ Contact.jsx
+│  │  ├─ DepartmentDetails.jsx
+│  │  ├─ Departments.jsx
+│  │  ├─ DoctorProfile.jsx
+│  │  ├─ Doctors.jsx
+│  │  ├─ Home.jsx
+│  │  ├─ News.jsx
+│  │  └─ NewsDetails.jsx
+│  ├─ services
+│  │  └─ axios.js
+│  └─ utils
+│     ├─ departmentLinks.js
+│     └─ doctorLinks.js
 ├─ vercel.json
 └─ vite.config.js
 

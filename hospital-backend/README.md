@@ -98,69 +98,84 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 
-```
-hospital-backend
-├─ .agents
-├─ .prettierrc
-├─ eslint.config.mjs
-├─ nest-cli.json
-├─ package-lock.json
-├─ package.json
-├─ README.md
-├─ src
-│  ├─ app.module.ts
-│  ├─ common
-│  │  ├─ cloudinary
-│  │  │  ├─ cloudinary.config.ts
-│  │  │  ├─ cloudinary.module.ts
-│  │  │  └─ cloudinary.service.ts
-│  │  ├─ decorators
-│  │  │  └─ roles.decorator.ts
-│  │  ├─ filters
-│  │  ├─ guards
-│  │  │  ├─ jwt-auth.guard.ts
-│  │  │  └─ roles.guard.ts
-│  │  ├─ interceptors
-│  │  └─ pipes
-│  ├─ config
-│  │  ├─ database.config.ts
-│  │  └─ env.validation.ts
-│  ├─ main.ts
-│  ├─ modules
-│  │  ├─ appointments (not clear)
-│  │  ├─ auth
-│  │  │  ├─ auth.controller.ts
-│  │  │  ├─ auth.module.ts
-│  │  │  ├─ auth.service.ts
-│  │  │  ├─ dto
-│  │  │  │  └─ login.dto.ts
-│  │  │  ├─ jwt-auth.guard.ts
-│  │  │  ├─ schemas
-│  │  │  │  └─ admin.schema.ts
-│  │  │  └─ strategies
-│  │  │     └─ jwt.strategy.ts
-│  │  ├─ departments
-│  │  ├─ doctors
-│  │  │  ├─ doctors.controller.ts
-│  │  │  ├─ doctors.module.ts
-│  │  │  ├─ doctors.service.ts
-│  │  │  ├─ dto
-│  │  │  │  ├─ create-doctor.dto.ts
-│  │  │  │  └─ update-doctor.dto.ts
-│  │  │  └─ schemas
-│  │  │     └─ doctor.schema.ts
-│  │  └─ news
-│  └─ shared
-│     ├─ constants
-│     ├─ enums
-│     │  ├─ gender.enum.ts
-│     │  └─ role.enum.ts
-│     └─ types
-├─ test
-│  ├─ app.e2e-spec.ts
-│  └─ jest-e2e.json
-├─ test.js
-├─ tsconfig.build.json
-└─ tsconfig.json
+  ```
+  hospital-backend
+  ├─ .agents
+  ├─ .prettierrc
+  ├─ eslint.config.mjs
+  ├─ nest-cli.json
+  ├─ package-lock.json
+  ├─ package.json
+  ├─ README.md
+  ├─ src
+  │  ├─ app.module.ts
+  │  ├─ common
+  │  │  ├─ cloudinary
+  │  │  │  ├─ cloudinary.config.ts
+  │  │  │  ├─ cloudinary.module.ts
+  │  │  │  └─ cloudinary.service.ts
+  │  │  ├─ decorators
+  │  │  │  └─ roles.decorator.ts
+  │  │  ├─ filters
+  │  │  ├─ guards
+  │  │  │  ├─ jwt-auth.guard.ts
+  │  │  │  └─ roles.guard.ts
+  │  │  ├─ interceptors
+  │  │  └─ pipes
+  │  ├─ config
+  │  │  ├─ database.config.ts
+  │  │  └─ env.validation.ts
+  │  ├─ main.ts
+  │  ├─ modules
+  │  │  ├─ appointments (not clear)
+  │  │  ├─ auth
+  │  │  │  ├─ auth.controller.ts
+  │  │  │  ├─ auth.module.ts
+  │  │  │  ├─ auth.service.ts
+  │  │  │  ├─ dto
+  │  │  │  │  └─ login.dto.ts
+  │  │  │  ├─ jwt-auth.guard.ts
+  │  │  │  ├─ schemas
+  │  │  │  │  └─ admin.schema.ts
+  │  │  │  └─ strategies
+  │  │  │     └─ jwt.strategy.ts
+  │  │  ├─ departments
+  │  │  │  ├─ departments.controller.ts
+  │  │  │  ├─ departments.module.ts
+  │  │  │  ├─ departments.service.ts
+  │  │  │  ├─ dto
+  │  │  │  │  ├─ create-department.dto.ts
+  │  │  │  │  └─ update-department.dto.ts
+  │  │  │  └─ schemas
+  │  │  │     └─ department.schema.ts
+  │  │  ├─ doctors
+  │  │  │  ├─ doctors.controller.ts
+  │  │  │  ├─ doctors.module.ts
+  │  │  │  ├─ doctors.service.ts
+  │  │  │  ├─ dto
+  │  │  │  │  ├─ create-doctor.dto.ts
+  │  │  │  │  └─ update-doctor.dto.ts
+  │  │  │  └─ schemas
+  │  │  │     └─ doctor.schema.ts
+  │  │  └─ news
+  │  │     ├─ dto
+  │  │     │  ├─ create-news.dto.ts
+  │  │     │  └─ update-news.dto.ts
+  │  │     ├─ news.controller.ts
+  │  │     ├─ news.module.ts
+  │  │     ├─ news.service.ts
+  │  │     └─ schemas
+  │  │        └─ news.schema.ts
+  │  └─ shared
+  │     ├─ constants
+  │     ├─ enums
+  │     │  ├─ gender.enum.ts
+  │     │  └─ role.enum.ts
+  │     └─ types
+  ├─ test
+  │  ├─ app.e2e-spec.ts
+  │  └─ jest-e2e.json
+  ├─ tsconfig.build.json
+  └─ tsconfig.json
 
-```
+  ```

@@ -1,11 +1,25 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [admin, setAdmin] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    photo?: string | null;
+  } | null>(null);
 
+  useEffect(() => {
+    const storedAdmin = localStorage.getItem("admin");
+
+    if (storedAdmin) {
+      setAdmin(JSON.parse(storedAdmin));
+    }
+  }, []);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -28,10 +42,19 @@ export default function UserDropdown() {
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src="/images/user/owner.jpg" alt="User" />
+              <img
+                src={admin?.photo || "/images/user/user.svg"}
+                alt={admin?.name || "Admin"}
+                className="h-11 w-11 rounded-full object-cover"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/user/user.svg";
+                }}
+              />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Musharof</span>
+        <span className="block mr-1 font-medium text-theme-sm">
+        {admin?.name ?? "Admin"}
+      </span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -59,11 +82,11 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+            {admin?.name ?? "Admin"}
           </span>
-          <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
-          </span>
+        <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
+          {admin?.email}
+        </span>
         </div>
 
         <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200 dark:border-gray-800">
