@@ -131,10 +131,9 @@ export default function DepartmentDetails() {
             />
           )}
 
-          <p className="text-gray-700 leading-8">
-            {department.content ||
-              department.shortDescription}
-          </p>
+          <div className="text-gray-700 leading-8 whitespace-pre-wrap">
+            {department.content || department.shortDescription}
+          </div>
         </div>
 
         {/* Right */}
