@@ -75,14 +75,16 @@ export default function NewsDetails() {
     <section className="mx-auto max-w-5xl px-6 py-16">
       {/* Image */}
       {imageUrl && (
-        <img
-          src={imageUrl}
-          alt={article.title}
-          className="mb-8 w-full rounded-2xl"
-          onError={(e) => {
-            e.target.src = "/news/default-news.webp";
-          }}
-        />
+        <div className="mb-8 overflow-hidden rounded-2xl bg-gray-100">
+          <img
+            src={imageUrl}
+            alt={article.title}
+            className="h-[350px] w-full object-contain"
+            onError={(e) => {
+              e.currentTarget.src = "/news/default-news.webp";
+            }}
+          />
+        </div>
       )}
 
       {/* Date */}

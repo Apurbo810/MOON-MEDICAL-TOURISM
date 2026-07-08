@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import FileInput from "../form/input/FileInput";
+import ImageCropModal from "../common/ImageCropModal";
 import {
   doctorSchema,
   DoctorFormData,
@@ -27,6 +28,8 @@ export default function DoctorForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [oldImagePublicId, setOldImagePublicId] = useState<string | null>(null);
+  const [pendingImage, setPendingImage] = useState<string | null>(null);
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const {
     register,
     control,
@@ -143,12 +146,20 @@ useEffect(() => {
 }, [id, reset, setValue]);
 
     useEffect(() => {
-    return () => {
-        if (imagePreview) {
-        URL.revokeObjectURL(imagePreview);
+      return () => {
+        if (imagePreview?.startsWith("blob:")) {
+          URL.revokeObjectURL(imagePreview);
         }
-    };
+      };
     }, [imagePreview]);
+
+    useEffect(() => {
+      return () => {
+        if (pendingImage?.startsWith("blob:")) {
+          URL.revokeObjectURL(pendingImage);
+        }
+      };
+    }, [pendingImage]);
     useEffect(() => {
     const fetchDepartments = async () => {
         try {
@@ -225,6 +236,8 @@ useEffect(() => {
         setSelectedImage(null);
         setImagePreview(null);
         setOldImagePublicId(null);
+        setPendingImage(null);
+        setIsCropModalOpen(false);
 
         navigate("/doctors");
       } catch (error) {
@@ -253,10 +266,15 @@ useEffect(() => {
         return;
     }
 
-    setSelectedImage(file);
-
     const imageUrl = URL.createObjectURL(file);
-    setImagePreview(imageUrl);
+    setPendingImage(imageUrl);
+    setIsCropModalOpen(true);
+    };
+
+    const handleCropComplete = (file: File, previewUrl: string) => {
+      setSelectedImage(file);
+      setImagePreview(previewUrl);
+      setPendingImage(null);
     };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -435,7 +453,7 @@ useEffect(() => {
         <div className="md:col-span-2">
         <Label>Doctor Image (Optional)</Label>
 
-        <FileInput onChange={handleImageChange} />
+        <FileInput accept="image/*" onChange={handleImageChange} />
 
         {imagePreview && (
             <div className="mt-4 flex flex-col items-start gap-3">
@@ -450,6 +468,7 @@ useEffect(() => {
                 onClick={() => {
                 setImagePreview(null);
                 setSelectedImage(null);
+                setOldImagePublicId(null);
                 }}
                 className="rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
             >
@@ -480,6 +499,20 @@ useEffect(() => {
         </div>
       </div>
       
+    <ImageCropModal
+      isOpen={isCropModalOpen}
+      imageSrc={pendingImage}
+      onClose={() => {
+        setIsCropModalOpen(false);
+        setPendingImage(null);
+      }}
+      onCropComplete={handleCropComplete}
+      title="Adjust doctor profile photo"
+      description="Drag to reposition and zoom to frame the photo like a Discord or Facebook profile picture."
+      aspectRatio={1}
+      cropShape="round"
+    />
+
     <DoctorSchedule
     register={register}
     control={control}
